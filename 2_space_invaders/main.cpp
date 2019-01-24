@@ -40,12 +40,12 @@ void Load()
 	Player* player = new Player();
 	ships.push_back(player);
 
-	int invaders_rows = 1;
-	int invaders_columns = 1;
+	int invaders_rows = 20;
+	int invaders_columns = 5;
 	for (int r = 0; r < invaders_rows; ++r) {
 		auto rect = IntRect(0, 0, 32, 32);
 		for (int c = 0; c < invaders_columns; ++c) {
-			Vector2f position = sf::Vector2f(r + 32, c + 32);
+			Vector2f position = sf::Vector2f(r * invaders_rows, c * invaders_columns);
 			auto inv = new Invader(rect, position);
 			ships.push_back(inv);
 		}

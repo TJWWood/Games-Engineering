@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include "Game.h"
+#include "Bullet.h"
 using namespace sf;
 using namespace std;
 
@@ -53,5 +54,8 @@ void Player::Update(const float &dt) {
 	}
 
 	move(direction * 400.0f * dt, 0);
+
+	//static vector<Bullet*> bullets;
+
 }
 
