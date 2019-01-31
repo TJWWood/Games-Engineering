@@ -27,3 +27,17 @@ file(GLOB_RECURSE SOURCES 2_space_invaders/*.cpp 2_space_invaders/*.h)
 add_executable(2_SPACE_INVADERS ${SOURCES} )
 target_include_directories(2_SPACE_INVADERS SYSTEM PRIVATE ${SFML_INCS})
 target_link_libraries(2_SPACE_INVADERS sfml-graphics)
+
+# NEED ALL THIS FOR EACH NEW PROJECT
+set_target_properties(2_SPACE_INVADERS 
+    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+add_dependencies(2_SPACE_INVADERS copy_resources)
+######################################
+
+add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} 
+  -E copy_directory
+    "${PROJECT_SOURCE_DIR}/res"
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res
+)

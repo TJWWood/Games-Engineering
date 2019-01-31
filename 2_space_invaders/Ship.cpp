@@ -55,7 +55,13 @@ void Player::Update(const float &dt) {
 
 	move(direction * 400.0f * dt, 0);
 
-	//static vector<Bullet*> bullets;
+	static vector<Bullet*> bullets;
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		bullets.push_back(new Bullet(getPosition(), false));
+	}
+	//for (const auto s : bullets) {
+	//	s.Update(dt);
+	//}
 
 }
 
