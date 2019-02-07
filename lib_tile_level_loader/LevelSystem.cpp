@@ -13,7 +13,7 @@ Vector2f LevelSystem::_offset(0.0f, 30.0f);
 float LevelSystem::_tileSize(100.f);
 vector<std::unique_ptr<sf::RectangleShape>> LevelSystem::_sprites;
 
-std::map<LevelSystem::TILE, sf::Color> LevelSystem::_colours{ {WALL, Color::White}, {END, Color::Red} };
+std::map<LevelSystem::TILE, sf::Color> LevelSystem::_colours{ {WALL, Color::White}, {END, Color::Red}, {START, Color::Green} };
 
 sf::Color LevelSystem::getColor(LevelSystem::TILE t) {
 	auto it = _colours.find(t);
@@ -87,13 +87,13 @@ void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
 			_width = w; //set static class vars
 			_height = h;
 			std::copy(temp_tiles.begin(), temp_tiles.end(), &_tiles[0]);
-			cout << "Level " << path << " Loaded. " << w << "x" << h << std::endl;
+			cout << "Level " << path << " Loaded. " << to_string(w) << "x" << to_string(h) << endl;
 			buildSprites();
 		}
 	}
 	catch (string parsefail)
 	{
-		cout << parsefail;
+		cout << parsefail << endl;
 	}
 
 
