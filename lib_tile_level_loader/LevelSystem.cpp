@@ -28,7 +28,7 @@ void LevelSystem::setColor(LevelSystem::TILE t, sf::Color c) {
 
 void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
 	_tileSize = tileSize;
-	size_t w = 0, h = 0;
+	size_t w = 0, h = 1;
 	string buffer;
 
 	// Load in file to buffer
@@ -76,17 +76,27 @@ void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
 			cout << c << endl; // Don't know what this tile type is
 		}
 	}
-
-	if (temp_tiles.size() != (w * h)) {
-		cout << "Can't parse level file" + path;
+	try
+	{
+		if (temp_tiles.size() != (w * h)) {
+			throw string("Can't parse level file") + path;
+		}
+		else
+		{
+			_tiles = std::make_unique<TILE[]>(w * h);
+			_width = w; //set static class vars
+			_height = h;
+			std::copy(temp_tiles.begin(), temp_tiles.end(), &_tiles[0]);
+			cout << "Level " << path << " Loaded. " << w << "x" << h << std::endl;
+			buildSprites();
+		}
+	}
+	catch (string parsefail)
+	{
+		cout << parsefail;
 	}
 
-	_tiles = std::make_unique<TILE[]>(w * h);
-	_width = w; //set static class vars
-	_height = h;
-	std::copy(temp_tiles.begin(), temp_tiles.end(), &_tiles[0]);
-	cout << "Level " << path << " Loaded. " << w << "x" << h << std::endl;
-	buildSprites();
+
 }
 
 void LevelSystem::buildSprites() {
