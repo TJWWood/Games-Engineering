@@ -49,6 +49,20 @@ set_target_properties(3_TILE_ENGINE
 add_dependencies(3_TILE_ENGINE copy_resources)
 ######################################
 
+file(GLOB_RECURSE SOURCES 4_pacman/*.cpp 4_pacman/*.h)
+add_executable(4_PACMAN ${SOURCES} )
+target_include_directories(3_TILE_ENGINE SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(4_PACMAN lib_tile_level_loader lib_maths sfml-graphics)
+
+# NEED ALL THIS FOR EACH NEW PROJECT
+set_target_properties(4_PACMAN 
+    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+add_dependencies(4_PACMAN copy_resources)
+######################################
+
+
 add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} 
   -E copy_directory
     "${PROJECT_SOURCE_DIR}/res"
