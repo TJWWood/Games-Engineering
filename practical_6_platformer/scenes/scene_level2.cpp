@@ -13,19 +13,21 @@ using namespace sf;
 static shared_ptr<Entity> player;
 void Level2Scene::Load() {
   cout << "Scene 2 Load" << endl;
-  ls::loadLevelFile("res/level_2.txt", 40.0f);
+  ls::loadLevelFile("res/levels/level_2.txt", 40.0f);
   auto ho = Engine::getWindowSize().y - (ls::getHeight() * 40.f);
   ls::setOffset(Vector2f(0, ho));
 
   // Create player
   {
     // *********************************
+	player = makeEntity();
+	player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
+	auto s = player->addComponent<ShapeComponent>();
+	s->setShape<sf::RectangleShape>(Vector2f(20.f, 30.f));
+	s->getShape().setFillColor(Color::Magenta);
+	s->getShape().setOrigin(10.f, 15.f);
 
-
-
-
-
-
+	player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 30.f));
     // *********************************
     player->addTag("player");
     player->addComponent<PlayerPhysicsComponent>(Vector2f(20.f, 30.f));
@@ -38,14 +40,14 @@ void Level2Scene::Load() {
                        Vector2f(0, 24));
     // *********************************
     // Add HurtComponent
-
+	enemy->addComponent<HurtComponent>();
     // Add ShapeComponent, Red 16.f Circle
-
-
-
+	auto sEnemy = enemy->addComponent<ShapeComponent>();
+	sEnemy->setShape<sf::CircleShape>(16.0f);
+	sEnemy->getShape().setFillColor(Color::Red);
 
     // Add EnemyAIComponent
-
+	enemy->addComponent<EnemyAIComponent>();
     // *********************************
   }
 
@@ -64,14 +66,14 @@ void Level2Scene::Load() {
   // Add physics colliders to level tiles.
   {
     // *********************************
-
-
-
-
-
-
-
-
+	  auto walls = ls::findTiles(ls::WALL);
+	  for (auto w : walls) {
+		  auto pos = ls::getTilePosition(w);
+		  pos += Vector2f(20.f, 20.f); //offset to center
+		  auto e = makeEntity();
+		  e->setPosition(pos);
+		  e->addComponent<PhysicsComponent>(false, Vector2f(40.f, 40.f));
+	  }
     // *********************************
   }
 
